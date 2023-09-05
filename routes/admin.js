@@ -73,4 +73,16 @@ router.post('/signup', (req, res) => {
     res.json({ course });
   });
 
+  router.delete(`/course/:courseId`,authenticateJwt,async (req,res) => {
+    const courseId = req.params.courseId;
+    
+    if (!courseId) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+
+    await Course.findByIdAndDelete(courseId);
+
+    res.json({ message: 'Course deleted successfully' });
+  })
+
   module.exports = router
